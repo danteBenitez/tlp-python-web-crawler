@@ -22,6 +22,8 @@ def get_html_content(url: str) -> BeautifulSoup:
         return soup
     except requests.RequestException as err:
         log_error(f"Hubo un error al leer la página con URL {url}", err)
+    except Exception as err:
+        log_error("Hubo un error desconocido", err)
 
 def crawl(absolute_url: str) -> dict[str, list[str]]:
     """
@@ -37,7 +39,7 @@ def crawl(absolute_url: str) -> dict[str, list[str]]:
     main_content = get_html_content(absolute_url)
 
     # Encontrar los enlaces
-    links = main_content.find_all('a', class_="nav-link", attrs={
+    links = main_content.find_all('a', attrs={
         'href': True,
     })
 
@@ -56,6 +58,7 @@ def crawl(absolute_url: str) -> dict[str, list[str]]:
 
     for url in pages_to_visit:
         # Obtenemos el contenido
+        print(url)
         html = get_html_content(url)
 
         # Creamos la lista de resultados
