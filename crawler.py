@@ -1,9 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import sys
-
-def log_error(*str):
-    print(file=sys.stderr, *str)
+from log import log_error
 
 def get_html_content(url: str) -> BeautifulSoup:
     """
@@ -24,6 +21,7 @@ def get_html_content(url: str) -> BeautifulSoup:
         log_error(f"Hubo un error al leer la página con URL {url}", err)
     except Exception as err:
         log_error("Hubo un error desconocido", err)
+
 
 def crawl(absolute_url: str) -> dict[str, list[str]]:
     """
@@ -58,7 +56,6 @@ def crawl(absolute_url: str) -> dict[str, list[str]]:
 
     for url in pages_to_visit:
         # Obtenemos el contenido
-        print(url)
         html = get_html_content(url)
 
         # Creamos la lista de resultados
