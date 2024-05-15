@@ -82,8 +82,8 @@ $ .env/Scripts/activate
 $ pip install -r requirements.txt
 ```
 
-- Ejecutar proyecto: 
+- Ver opciones de uso del script principal: 
 
 ```bash
-$ python3 __init__.py
+$ python3 __init__.py --help
 ```
