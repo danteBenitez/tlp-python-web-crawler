@@ -23,7 +23,7 @@ def get_html_content(url: str) -> BeautifulSoup:
         log_error("Hubo un error desconocido", err)
 
 
-def crawl(absolute_url: str) -> dict[str, list[str]]:
+def crawl(absolute_url: str, *, verbose = False) -> dict[str, list[str]]:
     """
         Recorre un sitio web, encuentra enlaces y construye un objeto de resultados
         con el contenido de <h1> y <p> como valores, y las URL como claves.
@@ -48,13 +48,16 @@ def crawl(absolute_url: str) -> dict[str, list[str]]:
             # Si la URL comienza con #, entonces no debemos seguir el enlace
             if href.startswith('#'):
                 continue
+            elif href.startswith('http'):
+                pages_to_visit.append(href)
             # Si la URL comienza con /, suponemos que debemos agregar la URL de la página
             elif href.startswith('/'):
                 pages_to_visit.append(absolute_url + href)
-            else:
-                pages_to_visit.append(href)
 
     for url in pages_to_visit:
+        if verbose:
+            print(f"Visitando {url}")
+
         # Obtenemos el contenido
         html = get_html_content(url)
 
